@@ -75,3 +75,21 @@ class graph{
         delete []visited;
     }    
 };
+int main() {
+    int vertices = 7; // Example: Graph with 5 vertices
+    graph g(vertices);
+    //Adding edges
+    g.addEgde(1,2);
+    g.addEgde(4,6);
+    g.addEgde(2,3);
+    g.addEgde(1,4);
+    g.addEgde(4,5);
+    g.addEgde(5,6);
+    g.addEgde(0,2);
+
+    // Display the adjacency matrixss
+    g.display_graph();
+    g.Breadth_first_search(3);//Start from node/vertice 0
+    g.DFS(3);//start from node/vertice 0
+    return 0;
+}
