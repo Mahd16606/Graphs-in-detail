@@ -90,6 +90,26 @@ class graph{
         cout<<endl;
         delete []visited;
     }
+    void delete_Edge(int v,int u){
+        if(v>=vertices||u>=vertices||v<0||u<0){
+            cout<<"Invalid edge....."<<endl;
+            return;
+        }
+        AdjacenycMatrix[v][u]=0;
+        AdjacenycMatrix[u][v]=0;
+    }
+    void delete_Vertice(int v){
+        if(v>=vertices||v<0){
+            cout<<"Invalid vertice....."<<endl;
+            return;
+        }
+        for(int i=0;i<vertices;i++){
+            AdjacenycMatrix[v][i]=0;
+            AdjacenycMatrix[i][v]=0;
+        }
+        vertice_Value[v]="";
+        cout<<"Vertex "<<v<<" does not exist..."<<endl;
+    }
 };
 int main() {
     int vertices = 7; // Example: Graph with 5 vertices
