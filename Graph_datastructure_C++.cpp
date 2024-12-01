@@ -21,7 +21,7 @@ class graph{
         }
         delete []AdjacencyMatrix;
     }
-        void addEgde(int v,int u){
+    void addEgde(int v,int u){
             if(v>=vertices||u>=vertices||v<0||u<0){
                 cout<<"Invalid edge.."<<endl;
             }
@@ -30,7 +30,7 @@ class graph{
                 AdjacencyMatrix[u][v]=1;//For undirected graphs...
             }
         }
-        void display_graph(){
+    void display_graph(){
             for(int i=0;i<vertices;i++){
                 for(int j=0;j<vertices;j++){
                 cout<<AdjacencyMatrix[i][j]<<" ";
@@ -38,7 +38,7 @@ class graph{
             cout<<endl;
         }
     }
-        void Breadth_first_search(int start){
+    void Breadth_first_search(int start){
         bool *visited=new bool[vertices]();
         queue<int>q;
         cout<<"Breadth first search..."<<endl;
@@ -55,6 +55,22 @@ class graph{
                 }
             }
         }
+        cout<<endl;
+        delete []visited;
+    }
+    void DFS_Helper(int v,bool *visited){
+        visited[v]=true;
+        cout<<v<<" ";
+        for(int i=0;i<vertices;i++){
+            if(AdjacencyMatrix[v][i]==1&&!visited[i]){
+                DFS_Helper(i,visited);
+            }
+        }
+    }
+    void DFS(int start){
+        bool *visited=new bool[vertices]();
+        cout<<"DFS:"<<endl;
+        DFS_Helper(start,visited);
         cout<<endl;
         delete []visited;
     }    
