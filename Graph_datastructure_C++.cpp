@@ -110,6 +110,29 @@ class graph{
         vertice_Value[v]="";
         cout<<"Vertex "<<v<<" does not exist..."<<endl;
     }
+        void search_edge(int u,int v){
+        if(u>=vertices||v>=vertices||u<0||v<0){
+            cout<<"Invalid edge....."<<endl;
+        }
+        if(AdjacenycMatrix[u][v]==1){
+            cout<<"An edge exists between..."<<u<<" and "<<v<<endl;
+        }
+        else{
+            cout<<"No edge..."<<endl;
+        }
+    }
+    void search_vertice(int v){
+         if (v >= vertices || v < 0) {
+            cout << "Vertex " << v << " does not exist." << endl;
+            return;
+        }
+        else if(vertice_Value[v]!=""){
+            cout<<"Vertex "<<v<<" exists with value "<<vertice_Value[v]<<endl;
+        }
+        else{
+            cout<<"Vertex "<<v<<" does not exist..."<<endl;
+        }
+    }
 };
 int main() {
     int vertices = 7; // Example: Graph with 5 vertices
