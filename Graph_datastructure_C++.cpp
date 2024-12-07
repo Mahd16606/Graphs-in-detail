@@ -1,6 +1,7 @@
 #include<iostream>
 #include<queue>
 #include<string>
+#include<vector>
 using namespace std;
 class graph{
     int **AdjancencyMatrix;
@@ -31,17 +32,20 @@ class graph{
         }
         VertexValues[vertex]=value;
     }
-    void addEdge(int v,int u){
+    void addEdge(int v,int u,int weight){
         if(v>=vertices||u>=vertices||v<0||u<0){
             cout<<"Invalid vertices typed..."<<endl;
             return;
         }
-        AdjancencyMatrix[v][u]=1;
-        AdjancencyMatrix[u][v]=1;
+        AdjancencyMatrix[v][u]=weight; //bas yahan per jo bhi numerical value represent kerni hai wo yahan per typee kerni hai.....
+        AdjancencyMatrix[u][v]=weight; //ager undirected graph hai
     }
     void display_Graph_2d_Matrix(){
         for(int i=0;i<vertices;i++){
             for(int j=0;j<vertices;j++){
+                if(AdjancencyMatrix[i][j]==0)
+                cout<<". ";
+                else
                 cout<<AdjancencyMatrix[i][j]<<" ";  
             }
         cout<<endl;
@@ -52,8 +56,9 @@ class graph{
             cout<<"Invalid vertices typed..."<<endl;
             return;
         }
-        if(AdjancencyMatrix[v][u]==1){
+        if(AdjancencyMatrix[v][u]!=0){
             cout<<"There exists an edge between "<<v<<" and "<<u<<endl;
+            cout<<"And the weight value is..."<<AdjancencyMatrix[v][u];
         }
         else{
             cout<<"There does not exist an edge between "<<v<<" and "<<u<<endl;
@@ -127,7 +132,7 @@ class graph{
             cout<<"Invalid start vertex"<<endl;
             return;
         }
-        bool*visited=new bool[vertices]();
+        vector<bool>visited(vertices,false);
         queue<int>q;
         cout<<"BFS:"<<endl;
         visited[start]=true;
@@ -137,20 +142,19 @@ class graph{
             q.pop();
             cout<<VertexValues[current]<<" ";
             for(int i=0;i<vertices;i++){
-                if(AdjancencyMatrix[current][i]==1&&!visited[i]){
+                if(AdjancencyMatrix[current][i]!=0&&!visited[i]){
                     visited[i]=true;
                     q.push(i);
                 }
             }
         }
         cout<<endl;
-        delete[] visited;
     }
-    void DFS_helper(int v,bool*visited){
+    void DFS_helper(int v,vector<bool>&visited){
         visited[v]=true;
         cout<<VertexValues[v]<<" ";
         for(int i=0;i<vertices;i++){
-            if(AdjancencyMatrix[v][i]==1&&!visited[i]){
+            if(AdjancencyMatrix[v][i]!=0&&!visited[i]){
                 DFS_helper(i,visited);
             }
         }
@@ -160,15 +164,14 @@ class graph{
             cout<<"Invalid start vertex"<<endl;
             return;
         }
-        bool*visited=new bool[vertices]();
+        vector<bool>visited(vertices,false);
         cout<<"DFS:"<<endl;
         DFS_helper(start,visited);
         cout<<endl;
-        delete[] visited;
     }
 };
 int main(){
-        int vertices = 7; // Example: Graph with 7 vertices
+    int vertices = 7; // Example: Graph with 7 vertices
     graph g(vertices);
 
     // Set values for the vertices
@@ -180,34 +183,32 @@ int main(){
     g.add_vertexValue(5, "F");
     g.add_vertexValue(6, "G");
 
-    // The most important part.
-    g.addEdge(0, 1);
-    g.addEdge(2, 3);
-    g.addEdge(1, 3);
-    g.addEdge(1, 4);
-    g.addEdge(4, 5);
-    g.addEdge(5, 6);
-    g.addEdge(6, 2);
+    // The most important part. adding egdes with weights....
+     g.addEdge(0, 1, 4);
+    g.addEdge(2, 3, 5);
+    g.addEdge(1, 3, 2);
+    g.addEdge(1, 4, 3);
+    g.addEdge(4, 5, 6);
+    g.addEdge(5, 6, 7);
+    g.addEdge(6, 2, 8);
 
-    // Display the adjacency matrix
     g.display_Graph_2d_Matrix();
     cout<<endl;
-    g.Breadth_first_search(3); // Start from vertex 3 (D)
-    g.DFS(3);   // Start from vertex 3 (D)
-    // Search for a vertex and an edge
-    g.search_vertex_with_index_value(3); // Search for vertex 3
-    g.search_edge(1, 2); // Search for edge (1, 2)
+    g.Breadth_first_search(3);
+    g.DFS(3);   
 
-    // Delete an edge and a vertex
+    g.search_vertex_with_index_value(3); 
+    g.search_edge(1, 2);
+
     g.delete_edge(1, 2);
-    g.delete_vertex_by_index(4);//Deletion by index
-    g.delete_vertex_by_value("A");//Deletion by value
-    // Display the graph after deletions
+    g.delete_vertex_by_index(4);
+    g.delete_vertex_by_value("A");
+    
     g.display_Graph_2d_Matrix();
 
-    // Perform BFS and DFS
-    g.Breadth_first_search(3); // Start from vertex 3 (D)
-    g.DFS(3);   // Start from vertex 3 (D)
+   
+    g.Breadth_first_search(3); 
+    g.DFS(3);   
 
     return 0;
 }
